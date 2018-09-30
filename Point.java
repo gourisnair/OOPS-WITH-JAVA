@@ -1,104 +1,150 @@
+import java.lang.Math;
 
 public class Point {
-	private int x;
-	private int y;
-	
-	//Parameterised constructor
-	Point(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
+	private double x;
+	private double y;
+
 	//Default constructor
-	Point() {
+	Point(){
 		this.x = 0;
 		this.y = 0;
 	}
-	
-	//Defining setters
-	public void setX(int xdata) {
-		this.x = xdata;
+
+	//Parameterized constructor
+	Point(double a, double b){
+		this.x = a;
+		this.y = b;
 	}
-	
-	//Defining setters 
-	public void setY(int ydata) {
-		this.y = ydata;
+
+	//Sets value for x
+	public void setX(double a) {
+		this.x = a;
 	}
-	
-	//Defining getters
-	public int getX() {
+
+	//Sets value for y
+	public void setY(double b) {
+		this.y = b;
+	}
+
+	//Retrieves value of x
+	public double getX() {
 		return this.x;
 	}
-	
-	//Defining getters
-	public int getY() {
+
+	//Retrieves value for y
+	public double  getY() {
 		return this.y;
 	}
-	
-	//Defining printers
+
+	//Method to print the coordinates
 	public void print() {
 		System.out.println("(" + this.x + "," + this.y + ")");
 	}
-	
-	//Function to check whether the point is origin
+
+	//Method to return the coordinates as a string
+	public String toString() {
+		return "(" + this.x + "," + this.y + ")";
+	}
+
+	//Method to returns the equation of line
+	public String eqnOfLine(Point p) {
+		double c = this.y - slope(p) * this.x;
+		return "y = " + slope(p) + "x + " + c;
+	}
+
+	//Method to check whether the coordinates are origin
 	public boolean isOrigin() {
 		if(this.x == 0 && this.y == 0) {
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
-	
-	//Function to check the quadrant
+
+	//Method to return the quadrant where the coordinate lies
 	public int whichQuadrant() {
-		if(isOrigin()) {
+		if(this.x > 0 && this.y > 0) {
+			return 1;
+		}
+		else if(this.x < 0 && this.y > 0) {
+			return 2;
+		}
+		else if(this.x < 0 && this.y < 0) {
+			return 3;
+		}
+		else if(this.x > 0 && this.y < 0) {
+			return 4;
+		}
+		else {
 			return 0;
-		} else {
-			if(this.x > 0 && this.y > 0) {
-				return 1;
-			} else {
-				if(this.x < 0 && this.y > 0) {
-					return 2;
-				} else {
-					if(this.x < 0 && this.y < 0) {
-						return 3;
-					} else {
-						return 4;
-					}
-				}
-			}
 		}
 	}
-	
-	//Function to find x projection
-	public void xProjection() {
-		System.out.println("(" + this.x + ",0)");
+
+	//Method to return x-projection
+	public Point xProj() {
+		Point xp;
+		xp = new Point(this.x, 0);
+		return xp;
 	}
-	
-	//Function to find y projection
-	public void yProjection() {
-		System.out.println("(0," + this.y + ")");
+
+	//Method to return y-projection
+	public Point yProj() {
+		Point xp;
+		xp = new Point(0, this.y);
+		return xp;
 	}
-	
-	//Function for mutable scalar multiplication
-	public void scalarMultiplicationMut(int c) {
-		x = x * c;
-		y = y * c;
+
+	//Method to return x-reflection
+	public Point xRefl() {
+		Point xp;
+		xp = new Point(this.x, -this.y);
+		return xp;
 	}
-	
-	//Function for immutable scalar multiplicaition
-	public Point scalarMultiplicationImmut(int c) {
-		Point q = new Point(c*x, c*y);
-		return q;
+
+	//Method to return y-reflection
+	public Point yRefl() {
+		Point xp;
+		xp = new Point(-this.x, this.y);
+		return xp;
 	}
-	
-	//Function to find sum of two points
-	public Point sum(Point e) {
-		return new Point(this.x + e.x , this.y + e.y);
+
+	//Method to return the scalar product
+	public Point scalarMult(double c) {
+		Point sp;
+		sp = new Point(c * this.x, c * this.y);
+		return sp;
 	}
-	
-	//Function to find slope of a line 
-	public double slope(Point e) {
-		return (double)((e.y - this.y) / (e.x - this.x));
+
+	//Method to return the sum of two points
+	public Point sumPoint(Point p) {
+		Point sp;
+		sp = new Point (this.x + p.x, this.y + p.y);
+		return sp;
 	}
+
+	//Method to return the slope of the coordinates
+	public double slope(Point p) {
+		return (double)(this.y - p.y) / (this.x - p.x);
+	}
+
+	//Method to return the Manhattan distance
+	public double manhattanDistance(Point p) {
+		return absolute(this.x - p.x) + absolute(this.y - p.y);
+	}
+
+	//Method to return the Euclidean distance
+	public double euclideanDistance(Point p) {
+		return Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2));
+	}
+
+	//Method to return the absolute value
+	private static double absolute(double n) {
+		if (n<0) {
+			return -1*n;
+		}
+		else
+			return n;
+	}
+
 }
